@@ -26,6 +26,7 @@ interface PageAdvantage {
 }
 
 export class TopPageModel {
+  _id: number;
   menu_category: MenuCategory;
   product_category: string;
   title: string;
