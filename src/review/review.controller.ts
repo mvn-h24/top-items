@@ -1,25 +1,36 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ReviewModel } from './review.model';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { CreateReviewDto } from './dto/CreateReviewDto';
+import { ReviewService } from './review.service';
+import { REVIEW_NOT_FOUND } from './review.constants';
 
 @Controller('review')
 export class ReviewController {
+  constructor(private readonly reviewService: ReviewService) {}
+
   @Post('create')
-  async create(@Body() dto: Omit<ReviewModel, '_id'>) {
-    return null;
+  async create(@Body() dto: CreateReviewDto) {
+    return this.reviewService.create(dto);
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    return null;
+    const deleted = await this.reviewService.delete(id);
+    if (!deleted) {
+      throw new HttpException(REVIEW_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
   }
 
-  @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return null;
-  }
-
-  @Get('')
-  async getAll() {
-    return null;
+  @Get('byProduct/:id')
+  async getByProduct(@Param('id') product_id: string) {
+    return this.reviewService.findByProductId(product_id);
   }
 }
