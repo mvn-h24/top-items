@@ -32,3 +32,8 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+#Docker cli
+/.docker/mongo-db/data/*
+!/.docker/mongo-db/data/.gitkeep
+/docker-compose.yaml
