@@ -1,3 +1,6 @@
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { prop } from '@typegoose/typegoose';
+
 export enum TopLevelCategory {
   courses,
   services,
@@ -10,29 +13,49 @@ export enum SecondLevelCategory {
   books,
   products,
 }
-interface MenuCategory {
+export class MenuCategory {
+  @prop({ enum: TopLevelCategory, type: () => Number })
   firstLevel: TopLevelCategory;
+
+  @prop({ enum: SecondLevelCategory, type: () => Number })
   secondLevel: SecondLevelCategory;
 }
-interface hhService {
+export class hhData {
+  @prop()
   count: number;
+  @prop()
   juniorSalary: number;
+  @prop()
   middleSalary: number;
+  @prop()
   seniorSalary: number;
 }
-interface PageAdvantage {
+export class PageAdvantage {
+  @prop()
   name: string;
+  @prop()
   description: string;
 }
 
+export interface TopPageModel extends Base {}
 export class TopPageModel {
-  _id: number;
-  menu_category: MenuCategory;
+  @prop()
+  alias: string;
+  @prop()
   product_category: string;
+  @prop()
   title: string;
+  @prop()
   seoText: string;
-  hh?: hhService;
-  advantages: Array<PageAdvantage>;
+  @prop()
   tagsTitle: string;
+
+  @prop({ type: () => MenuCategory })
+  menu_category: MenuCategory;
+  @prop({ type: () => hhData })
+  hh?: hhData;
+  @prop({ type: () => [PageAdvantage], _id: false })
+  advantages: Array<PageAdvantage>;
+  @prop({ type: () => [String], _id: false })
   tags: Array<string>;
 }
