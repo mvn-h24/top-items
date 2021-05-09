@@ -24,6 +24,6 @@ import { ConfMongoDb } from './config/ConfMongoDb';
     ReviewModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TestService],
 })
 export class AppModule {}
