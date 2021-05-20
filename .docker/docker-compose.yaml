@@ -6,7 +6,7 @@ services:
     image: mongo
     restart: 'no'
     volumes:
-      - ".docker/mongo-db/init-db.js:/docker-entrypoint-initdb.d/users_init.sh:ro"
+      - ".docker/mongo-db/init/init-db.js:/docker-entrypoint-initdb.d/init.js:ro"
       - ".docker/mongo-db/data:/data/db"
     environment:
       MONGO_INITDB_ROOT_USERNAME: 'top_app_root'
@@ -16,8 +16,8 @@ services:
       MONGODB_PASS: 'top_items_app_password'
     ports:
       - 27017:27017
-      env_file:
-        - '.env'
+    env_file:
+      - '.env'
 
   mongo-express:
     image: mongo-express
