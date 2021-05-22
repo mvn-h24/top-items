@@ -11,7 +11,7 @@ class Price {
   @prop()
   current: number;
   @prop()
-  old: number;
+  old?: number;
   @prop()
   credit: number;
 }
