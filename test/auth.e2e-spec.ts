@@ -1,14 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { CreateReviewDto } from '../src/review/dto/CreateReviewDto';
 import { disconnect, Types } from 'mongoose';
-import { AuthDto } from '../src/auth/dto/auth.dto';
+import { testLogin } from './jwt.login';
 
 describe('Auth Controller (e2e)', () => {
   let app: INestApplication;
-  let testApiToken: string;
+  let login: testLogin;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,12 +14,18 @@ describe('Auth Controller (e2e)', () => {
     }).compile();
     app = moduleFixture.createNestApplication();
     await app.init();
+    login = new testLogin(app);
   });
   it('/auth/register (POST)', async (done) => {
+    const re = await login.registerTestUser();
+    console.log(re.status);
+    expect(re.status === 201 || re.status === 400).toBeTruthy();
     done();
   });
 
   it('/auth/login (POST)', async (done) => {
+    const re = (await login.prepareJwt()).clearlyToken;
+    expect(re.length).not.toBe(0);
     done();
   });
 
