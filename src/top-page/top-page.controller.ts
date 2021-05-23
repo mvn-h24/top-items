@@ -32,8 +32,16 @@ export class TopPageController {
   }
 
   @Get(':id')
-  async getOne(@Param('id', IdValidationPipe) id: string) {
-    const page = this.topPageRepo.findById(id);
+  async getOneById(@Param('id', IdValidationPipe) id: string) {
+    const page = await this.topPageRepo.findById(id);
+    if (!page) {
+      throw new NotFoundException(PageNotFound);
+    }
+    return page;
+  }
+  @Get('alias/:alias')
+  async getOneByAlias(@Param('alias') alias: string) {
+    const page = await this.topPageRepo.findByAlias(alias);
     if (!page) {
       throw new NotFoundException(PageNotFound);
     }

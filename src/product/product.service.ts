@@ -18,7 +18,7 @@ export class ProductService {
   }
 
   findById(id: string) {
-    return this.productModel.findById(id);
+    return this.productModel.findById(id).exec();
   }
 
   async deleteByID(id: string) {

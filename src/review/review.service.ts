@@ -18,7 +18,7 @@ export class ReviewService {
   }
 
   async delete(id: string): Promise<DocumentType<ReviewModel> | null> {
-    return this.reviewModel.findByIdAndDelete(id).exec();
+    return this.reviewModel.findByIdAndRemove(id).exec();
   }
 
   async findByProductId(

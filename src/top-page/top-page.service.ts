@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { ModelType } from '@typegoose/typegoose/lib/types';
-import { TopPageModel } from './top-page.model';
+import { TopLevelCategory, TopPageModel } from './top-page.model';
 import { TopPageCreateDto } from './dto/top-page-create.dto';
 import { FindTopPageDto } from './dto/find-top-page.dto';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class TopPageService {
@@ -18,14 +17,10 @@ export class TopPageService {
   }
 
   async findById(id: string) {
-    return this.topPageModel.findById(id);
+    return this.topPageModel.findById(id).exec();
   }
-  async deleteById(id: string) {
-    return this.topPageModel.findByIdAndDelete(id);
-  }
-
-  async updateById(id: string, dto: TopPageCreateDto) {
-    return this.topPageModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+  async findByAlias(alias: string) {
+    return this.topPageModel.findOne({ alias }).exec();
   }
 
   async find(dto: FindTopPageDto) {
@@ -35,5 +30,13 @@ export class TopPageService {
         { $sort: { _id: 1 } },
       ])
       .exec();
+  }
+
+  async deleteById(id: string) {
+    return this.topPageModel.findByIdAndRemove(id).exec();
+  }
+
+  async updateById(id: string, dto: TopPageCreateDto) {
+    return this.topPageModel.findByIdAndUpdate(id, dto, { new: true }).exec();
   }
 }

@@ -3,6 +3,7 @@ import {
   IsArray,
   IsEnum,
   IsNumber,
+  IsOptional,
   IsString,
   ValidateNested,
 } from 'class-validator';
@@ -62,6 +63,8 @@ export class TopPageCreateDto {
   @ValidateNested()
   menu_category: MenuCategoryDto;
 
+  @Type(() => hhDataDto)
+  @IsOptional()
   @ValidateNested()
   hh?: hhDataDto;
 

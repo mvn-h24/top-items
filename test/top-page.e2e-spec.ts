@@ -9,7 +9,7 @@ import { FindTopPageDto } from '../src/top-page/dto/find-top-page.dto';
 import { TopLevelCategory } from '../src/top-page/top-page.model';
 
 const createDto: TopPageCreateDto = {
-  alias: 'a very cool page',
+  alias: 'a_very_cool_page',
   product_category: 'cool product',
   title: 'my cool page',
   seoText: 'landing page about me',
@@ -91,6 +91,15 @@ describe('Review controller (e2e)', () => {
         done();
       });
   });
+  it('/top-page/alias/:alias (GET)', async (done) => {
+    return await request(app.getHttpServer())
+      .get('/top-page/alias/' + createDto.alias)
+      .expect(200)
+      .then(({ body }: request.Response) => {
+        expect(body).toMatchObject(createDto);
+        done();
+      });
+  });
   it('/top-page/:id (PATCH)', async (done) => {
     return await request(app.getHttpServer())
       .patch('/top-page/' + createdId)
@@ -121,6 +130,11 @@ describe('Review controller (e2e)', () => {
       .then(() => {
         done();
       });
+  });
+  it('/top-page/:id (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/top-page/' + createdId)
+      .expect(404);
   });
 
   afterAll(() => {

@@ -38,7 +38,7 @@ export class PageAdvantage {
 
 export interface TopPageModel extends Base {}
 export class TopPageModel {
-  @prop()
+  @prop({ unique: true })
   alias: string;
   @prop()
   product_category: string;
