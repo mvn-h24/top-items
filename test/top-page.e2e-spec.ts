@@ -100,6 +100,16 @@ describe('Review controller (e2e)', () => {
         done();
       });
   });
+  it('/top-page/search (GET)', async (done) => {
+    return await request(app.getHttpServer())
+      .get('/top-page/search')
+      .send({ query: createDto.title })
+      .expect(200)
+      .then(({ body }: request.Response) => {
+        expect(body.length).toBeGreaterThan(0);
+        done();
+      });
+  });
   it('/top-page/:id (PATCH)', async (done) => {
     return await request(app.getHttpServer())
       .patch('/top-page/' + createdId)

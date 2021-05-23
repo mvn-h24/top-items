@@ -1,5 +1,5 @@
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { prop } from '@typegoose/typegoose';
+import { index, prop } from '@typegoose/typegoose';
 
 export enum TopLevelCategory {
   courses = 0,
@@ -37,6 +37,8 @@ export class PageAdvantage {
 }
 
 export interface TopPageModel extends Base {}
+
+@index({ title: 'text', seoText: 'text' })
 export class TopPageModel {
   @prop({ unique: true })
   alias: string;

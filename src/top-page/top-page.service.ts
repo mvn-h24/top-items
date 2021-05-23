@@ -4,6 +4,8 @@ import { ModelType } from '@typegoose/typegoose/lib/types';
 import { TopLevelCategory, TopPageModel } from './top-page.model';
 import { TopPageCreateDto } from './dto/top-page-create.dto';
 import { FindTopPageDto } from './dto/find-top-page.dto';
+import { topPageSearchDto } from './dto/top-page-search.dto';
+import { defaultGitIgnore } from '@nestjs/cli/lib/configuration/defaults';
 
 @Injectable()
 export class TopPageService {
@@ -22,13 +24,19 @@ export class TopPageService {
   async findByAlias(alias: string) {
     return this.topPageModel.findOne({ alias }).exec();
   }
-
   async find(dto: FindTopPageDto) {
     return this.topPageModel
       .aggregate([
         { $match: { 'menu_category.firstLevel': dto.firstCategory } },
         { $sort: { _id: 1 } },
       ])
+      .exec();
+  }
+  async textSearch(dto: topPageSearchDto) {
+    return this.topPageModel
+      .find({
+        $text: { $search: dto.query, $caseSensitive: false },
+      })
       .exec();
   }
 

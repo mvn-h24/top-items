@@ -19,6 +19,7 @@ import { FindTopPageDto } from './dto/find-top-page.dto';
 import { TopPageCreateDto } from './dto/top-page-create.dto';
 import { TopPageService } from './top-page.service';
 import { PageNotFound } from './top-page.constants';
+import { topPageSearchDto } from './dto/top-page-search.dto';
 
 @Controller('top-page')
 export class TopPageController {
@@ -31,6 +32,14 @@ export class TopPageController {
     return this.topPageRepo.create(dto);
   }
 
+  @Get('search')
+  async textSearch(@Body() dto: topPageSearchDto) {
+    const pages = await this.topPageRepo.textSearch(dto);
+    if (!pages) {
+      throw new NotFoundException(PageNotFound);
+    }
+    return pages;
+  }
   @Get(':id')
   async getOneById(@Param('id', IdValidationPipe) id: string) {
     const page = await this.topPageRepo.findById(id);
