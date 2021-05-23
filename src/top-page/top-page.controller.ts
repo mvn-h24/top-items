@@ -4,38 +4,69 @@ import {
   Delete,
   Get,
   HttpCode,
+  NotFoundException,
   Param,
   Patch,
   Post,
+  UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
+import { IdValidationPipe } from '../pipes/id-validation.pipe';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { TopPageModel } from './top-page.model';
 import { FindTopPageDto } from './dto/find-top-page.dto';
+import { TopPageCreateDto } from './dto/top-page-create.dto';
+import { TopPageService } from './top-page.service';
+import { PageNotFound } from './top-page.constants';
 
 @Controller('top-page')
 export class TopPageController {
+  constructor(private readonly topPageRepo: TopPageService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @UsePipes(new ValidationPipe())
   @Post('create')
-  async create(@Body() dto: Omit<TopPageModel, '_id'>) {
-    return null;
+  async create(@Body() dto: TopPageCreateDto) {
+    return this.topPageRepo.create(dto);
   }
 
   @Get(':id')
-  async getOne(@Param('id') id: string) {
-    return null;
+  async getOne(@Param('id', IdValidationPipe) id: string) {
+    const page = this.topPageRepo.findById(id);
+    if (!page) {
+      throw new NotFoundException(PageNotFound);
+    }
+    return page;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return null;
+  async delete(@Param('id', IdValidationPipe) id: string) {
+    const page = await this.topPageRepo.deleteById(id);
+    if (!page) {
+      throw new NotFoundException(PageNotFound);
+    }
+    return page;
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  async patch(@Param('id') id: string, @Body() dto: TopPageModel) {
-    return null;
+  async patch(
+    @Param('id', IdValidationPipe) id: string,
+    @Body() dto: TopPageModel,
+  ) {
+    const page = await this.topPageRepo.updateById(id, dto);
+    if (!page) {
+      throw new NotFoundException(PageNotFound);
+    }
+    return page;
   }
 
+  @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post()
+  @Post('find')
   async find(@Body() dto: FindTopPageDto) {
-    return null;
+    return this.topPageRepo.find(dto);
   }
 }

@@ -2,21 +2,20 @@ import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { prop } from '@typegoose/typegoose';
 
 export enum TopLevelCategory {
-  courses,
-  services,
-  books,
-  products,
+  courses = 0,
+  services = 1,
+  books = 2,
+  products = 3,
 }
 export enum SecondLevelCategory {
-  courses,
-  services,
-  books,
-  products,
+  courses = 0,
+  services = 1,
+  books = 2,
+  products = 3,
 }
 export class MenuCategory {
   @prop({ enum: TopLevelCategory, type: () => Number })
   firstLevel: TopLevelCategory;
-
   @prop({ enum: SecondLevelCategory, type: () => Number })
   secondLevel: SecondLevelCategory;
 }
@@ -56,6 +55,6 @@ export class TopPageModel {
   hh?: hhData;
   @prop({ type: () => [PageAdvantage], _id: false })
   advantages: Array<PageAdvantage>;
-  @prop({ type: () => [String], _id: false })
+  @prop({ type: () => [String] })
   tags: Array<string>;
 }

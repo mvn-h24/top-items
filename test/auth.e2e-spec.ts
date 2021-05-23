@@ -18,7 +18,6 @@ describe('Auth Controller (e2e)', () => {
   });
   it('/auth/register (POST)', async (done) => {
     const re = await login.registerTestUser();
-    console.log(re.status);
     expect(re.status === 201 || re.status === 400).toBeTruthy();
     done();
   });

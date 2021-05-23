@@ -30,6 +30,7 @@ export class CreateProductDto {
 
   @IsNumber()
   calculatedRating: number;
+
   @IsArray()
   @IsString({ each: true })
   categories: Array<string>;

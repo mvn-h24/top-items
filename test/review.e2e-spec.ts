@@ -26,7 +26,9 @@ describe('Review controller (e2e)', () => {
     }).compile();
     app = moduleFixture.createNestApplication();
     await app.init();
-    authCredential = await new testLogin(app).prepareJwt();
+    authCredential = await new testLogin(app);
+    await authCredential.registerTestUser();
+    await authCredential.prepareJwt();
   });
 
   it('/review/create (POST)', async (done) => {
