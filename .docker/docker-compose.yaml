@@ -1,6 +1,14 @@
 version: '3.1'
 
 services:
+  top-items:
+      image: top-items:latest
+      container_name: top-items
+      restart: always
+      ports:
+        - 3000:3000
+      volumes:
+        - ./.env:/opt/app/.env
 
   top_items:
     image: mongo

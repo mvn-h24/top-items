@@ -1,0 +1,11 @@
+name: Publish Docker App
+on:
+  push:
+    branches: [master]
+
+  jobs:
+    build:
+      runds-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@master
+        - name: publish to registry

@@ -37,3 +37,4 @@ lerna-debug.log*
 /.docker/mongo-db/data/*
 !/.docker/mongo-db/data/.gitkeep
 /docker-compose.yaml
+/Dockerfile
