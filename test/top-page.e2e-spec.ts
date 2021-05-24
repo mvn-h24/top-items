@@ -122,9 +122,9 @@ describe('Review controller (e2e)', () => {
       });
   });
 
-  it('/top-page/find (POST)', async (done) => {
+  it('/top-page/find/category (POST)', async (done) => {
     return await request(app.getHttpServer())
-      .post('/top-page/find')
+      .post('/top-page/find/category')
       .send(findDto)
       .expect(200)
       .then(({ body }: request.Response) => {

@@ -24,11 +24,18 @@ export class TopPageService {
   async findByAlias(alias: string) {
     return this.topPageModel.findOne({ alias }).exec();
   }
-  async find(dto: FindTopPageDto) {
+  async findByCategory(dto: FindTopPageDto) {
     return this.topPageModel
       .aggregate([
         { $match: { 'menu_category.firstLevel': dto.firstCategory } },
-        { $sort: { _id: 1 } },
+        {
+          $group: {
+            _id: {
+              firstLevel: '$menu_category.firstLevel',
+            },
+            pages: { $push: { title: '$title', alias: '$alias' } },
+          },
+        },
       ])
       .exec();
   }

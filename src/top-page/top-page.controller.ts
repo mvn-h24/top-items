@@ -82,8 +82,8 @@ export class TopPageController {
 
   @UsePipes(new ValidationPipe())
   @HttpCode(200)
-  @Post('find')
+  @Post('find/category')
   async find(@Body() dto: FindTopPageDto) {
-    return this.topPageRepo.find(dto);
+    return this.topPageRepo.findByCategory(dto);
   }
 }
