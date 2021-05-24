@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -18,7 +19,7 @@ import { TopPageModel } from './top-page.model';
 import { FindTopPageDto } from './dto/find-top-page.dto';
 import { TopPageCreateDto } from './dto/top-page-create.dto';
 import { TopPageService } from './top-page.service';
-import { PageNotFound } from './top-page.constants';
+import { PageAlreadyExists, PageNotFound } from './top-page.constants';
 import { topPageSearchDto } from './dto/top-page-search.dto';
 
 @Controller('top-page')
@@ -29,7 +30,12 @@ export class TopPageController {
   @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: TopPageCreateDto) {
-    return this.topPageRepo.create(dto);
+    try {
+      return this.topPageRepo.create(dto);
+    } catch (e) {
+      console.log(e);
+      throw new BadRequestException(PageAlreadyExists);
+    }
   }
 
   @Get('search')
