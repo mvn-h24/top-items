@@ -13,7 +13,7 @@ export class FilesService {
   }
 
   get uploadFolderUrl(): string {
-    return `/uploads/${this.uploadFolder}`;
+    return `${this.uploadFolder}`;
   }
 
   async UploadsPath(): Promise<string> {
