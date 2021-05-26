@@ -21,9 +21,11 @@ export class TopPageService {
   async findById(id: string) {
     return this.topPageModel.findById(id).exec();
   }
+
   async findByAlias(alias: string) {
     return this.topPageModel.findOne({ alias }).exec();
   }
+
   async findByCategory(dto: FindTopPageDto) {
     return this.topPageModel
       .aggregate([
@@ -39,6 +41,11 @@ export class TopPageService {
       ])
       .exec();
   }
+
+  async findAll() {
+    return this.topPageModel.find({}).exec();
+  }
+
   async textSearch(dto: topPageSearchDto) {
     return this.topPageModel
       .find({
