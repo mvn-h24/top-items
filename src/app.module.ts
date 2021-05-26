@@ -9,6 +9,7 @@ import { ConfMongoDb } from './config/ConfMongoDb';
 import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { APP_PROVIDERS } from './app.providers';
+import { TelegramModule } from './telegram/telegram.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { APP_PROVIDERS } from './app.providers';
     ReviewModule,
     FilesModule,
     SitemapModule,
+    TelegramModule,
   ],
   providers: APP_PROVIDERS,
 })

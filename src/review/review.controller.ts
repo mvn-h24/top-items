@@ -11,17 +11,21 @@ import {
 } from '@nestjs/common';
 import { CreateReviewDto } from './dto/CreateReviewDto';
 import { ReviewService } from './review.service';
-import { REVIEW_NOT_FOUND } from './review.constants';
-import { userEmail } from '../auth/decorators/user-email.decorator';
+import { REVIEW_CREATED, REVIEW_NOT_FOUND } from './review.constants';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
+import { TelegramService } from '../telegram/telegram.service';
 
 @Controller('review')
 export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(
+    private readonly telegramService: TelegramService,
+    private readonly reviewService: ReviewService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
+    await this.notify(REVIEW_CREATED);
     return this.reviewService.create(dto);
   }
 
@@ -35,5 +39,10 @@ export class ReviewController {
   @Get('byProduct/:id')
   async getByProduct(@Param('id') product_id: string) {
     return this.reviewService.findByProductId(product_id);
+  }
+
+  @Post('notify')
+  async notify(@Body() mess: string) {
+    await this.telegramService.sendMessage(mess);
   }
 }
