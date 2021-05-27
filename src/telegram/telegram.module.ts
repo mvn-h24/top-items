@@ -1,13 +1,28 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { TelegramService } from './telegram.service';
-import { TG_PROVIDERS } from './telegram.proviers';
-import { ConfigModule } from '@nestjs/config';
+import { ITgModuleAsyncOpt } from './telegram-options.interface';
+import { TELEGRAM_MODULE_OPTS } from './telegram.constants';
 
-@Module({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  providers: [TelegramService].concat(TG_PROVIDERS),
-  imports: [ConfigModule],
-  exports: [TelegramService],
-})
-export class TelegramModule {}
+@Global()
+@Module({})
+export class TelegramModule {
+  static forRootAsync(opts: ITgModuleAsyncOpt): DynamicModule {
+    const moduleOpts = this.createAsyncOptsProvider(opts);
+    return {
+      module: TelegramModule,
+      imports: opts.imports,
+      providers: [TelegramService, moduleOpts],
+      exports: [TelegramService],
+    };
+  }
+
+  private static createAsyncOptsProvider(opts: ITgModuleAsyncOpt): Provider {
+    return {
+      provide: TELEGRAM_MODULE_OPTS,
+      useFactory: async (...args: any[]) => {
+        return opts.useFactory(...args);
+      },
+      inject: opts.inject || [],
+    };
+  }
+}

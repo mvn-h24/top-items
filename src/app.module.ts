@@ -10,6 +10,7 @@ import { FilesModule } from './files/files.module';
 import { SitemapModule } from './sitemap/sitemap.module';
 import { APP_PROVIDERS } from './app.providers';
 import { TelegramModule } from './telegram/telegram.module';
+import { TgConfig } from './config/tg.config';
 
 @Module({
   imports: [
@@ -26,7 +27,11 @@ import { TelegramModule } from './telegram/telegram.module';
     ReviewModule,
     FilesModule,
     SitemapModule,
-    TelegramModule,
+    TelegramModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: TgConfig,
+    }),
   ],
   providers: APP_PROVIDERS,
 })
