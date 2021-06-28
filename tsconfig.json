@@ -10,6 +10,36 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@auth/*": ["./src/modules/auth/*"],
+      "@files/*": [
+        "./src/modules/files/*"
+      ],
+      "@product/*": [
+        "./src/modules/product/*"
+      ],
+      "@review/*": [
+        "./src/modules/review/*"
+      ],
+      "@sitemap/*": [
+        "./src/modules/sitemap/*"
+      ],
+      "@telegram/*": [
+        "./src/modules/telegram/*"
+      ],
+      "@top-page/*": [
+        "./src/modules/top-page/*"
+      ],
+      "@app/pipes/*": [
+        "./src/shared/pipes/*"
+      ],
+      "@app/config/*": [
+        "./src/config/*"
+      ],
+      "@app/*": [
+        "./src/*"
+      ]
+    }
   }
 }

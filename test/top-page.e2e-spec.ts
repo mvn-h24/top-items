@@ -4,9 +4,9 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { disconnect } from 'mongoose';
 import { testLogin } from './jwt.login';
-import { TopPageCreateDto } from '../src/top-page/dto/top-page-create.dto';
-import { FindTopPageDto } from '../src/top-page/dto/find-top-page.dto';
-import { TopLevelCategory } from '../src/top-page/top-page.model';
+import { TopPageCreateDto } from '../src/modules/top-page/dto/top-page-create.dto';
+import { FindTopPageDto } from '../src/modules/top-page/dto/find-top-page.dto';
+import { TopLevelCategory } from '../src/modules/top-page/top-page.model';
 
 const createDto: TopPageCreateDto = {
   alias: 'a_very_cool_page',

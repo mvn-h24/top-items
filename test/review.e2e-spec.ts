@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { CreateReviewDto } from '../src/review/dto/CreateReviewDto';
+import { CreateReviewDto } from '@review/dto/create-review.dto';
 import { disconnect, Types } from 'mongoose';
 import { testLogin } from './jwt.login';
 

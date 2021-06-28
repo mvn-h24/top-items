@@ -1,4 +1,4 @@
-import { AuthDto } from '../src/auth/dto/auth.dto';
+import { AuthDto } from '../src/modules/auth/dto/auth.dto';
 import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 
